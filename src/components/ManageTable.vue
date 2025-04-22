@@ -2,18 +2,27 @@
 import { ref } from 'vue'
 const newTask = ref('')
 const tasks = ref([
-  [
-    { title: 'task1', description: 'desc', col: 0, id: 1, edit: false },
-    { title: 'task2', description: 'desc', col: 0, id: 2, edit: false },
-  ],
-  [
-    { title: 'task3', description: 'desc', col: 1, id: 3, edit: false },
-    { title: 'task4', description: 'desc', col: 1, id: 4, edit: false },
-  ],
-  [
-    { title: 'task5', description: 'desc', col: 2, id: 5, edit: false },
-    { title: 'task6', description: 'desc', col: 2, id: 6, edit: false },
-  ],
+  {
+    colName: 'To do',
+    colData: [
+      { title: 'task1', description: 'desc', col: 0, id: 1, edit: false },
+      { title: 'task2', description: 'desc', col: 0, id: 2, edit: false },
+    ],
+  },
+  {
+    colName: 'In Progress',
+    colData: [
+      { title: 'task3', description: 'desc', col: 1, id: 3, edit: false },
+      { title: 'task4', description: 'desc', col: 1, id: 4, edit: false },
+    ],
+  },
+  {
+    colName: 'Done',
+    colData: [
+      { title: 'task5', description: 'desc', col: 2, id: 5, edit: false },
+      { title: 'task6', description: 'desc', col: 2, id: 6, edit: false },
+    ],
+  },
 ])
 
 function onDrop(ev: any) {
@@ -24,12 +33,12 @@ function onDrop(ev: any) {
 
   const transferId = Number(ev.dataTransfer.getData('id'))
   const transferCol = Number(ev.dataTransfer.getData('col'))
-  const orderIdx = tasks.value[transferCol].findIndex((t) => t.id === transferId)
-  let task = tasks.value[transferCol].splice(orderIdx, 1)[0] // return only one task
+  const orderIdx = tasks.value[transferCol].colData.findIndex((t) => t.id === transferId)
+  let task = tasks.value[transferCol].colData.splice(orderIdx, 1)[0] // return only one task
 
   const receiverCol = Number(ev.target.getAttribute('col'))
   task.col = receiverCol
-  tasks.value[receiverCol].push(task)
+  tasks.value[receiverCol].colData.push(task)
 }
 function onDragstart(ev: any) {
   console.log('onDragstart')
@@ -46,7 +55,7 @@ function addTask(ev: any) {
   if (newTask.value === '') {
     return
   }
-  tasks.value[0].push({
+  tasks.value[0].colData.push({
     title: newTask.value,
     description: 'desc',
     col: 0,
@@ -75,8 +84,9 @@ function onDbclick(ev: any) {
         v-for="(taskCol, index) in tasks"
         :col="index"
       >
+        <h2>{{ taskCol.colName }}</h2>
         <div
-          v-for="task in taskCol"
+          v-for="task in taskCol.colData"
           draggable="true"
           @dragstart="onDragstart"
           :id="String(task.id)"
