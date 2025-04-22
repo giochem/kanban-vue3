@@ -42,6 +42,10 @@ function onDragstart(ev: any) {
 }
 function addTask(ev: any) {
   console.log('add task', newTask.value)
+
+  if (newTask.value === '') {
+    return
+  }
   tasks.value[0].push({
     title: newTask.value,
     description: 'desc',
@@ -80,7 +84,7 @@ function onDbclick(ev: any) {
           class="cell"
         >
           <div v-if="task.edit === false">
-            <h3 @dblclick="task.edit = true">{{ task.title }}</h3>
+            <h3 class="task-title" @dblclick="task.edit = true">{{ task.title }}</h3>
             <p>{{ task.description }}</p>
           </div>
           <div v-else>
@@ -96,22 +100,38 @@ function onDbclick(ev: any) {
     </div>
   </div>
 </template>
+
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  box-sizing: border-box;
+}
 .table {
+  width: 1000px;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
+}
+.dashboard {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 .column {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 500px;
+  width: 300px;
   min-height: 500px;
 }
-
 .cell {
-  height: 100px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+  background-color: antiquewhite;
 }
 input {
   margin: 18.72px 0px;
