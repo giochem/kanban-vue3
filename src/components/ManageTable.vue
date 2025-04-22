@@ -73,7 +73,7 @@ function onDbclick(ev: any) {
   <div class="dashboard">
     <div class="new-task">
       <input v-model="newTask" type="text" />
-      <button @click.prevent="addTask">Add</button>
+      <button @click.prevent="addTask" class="add-task">Add</button>
     </div>
     <div class="table">
       <div
@@ -112,12 +112,6 @@ function onDbclick(ev: any) {
 </template>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  box-sizing: border-box;
-}
 .table {
   width: 1000px;
   display: flex;
@@ -137,7 +131,7 @@ function onDbclick(ev: any) {
   min-height: 500px;
 }
 .cell {
-  height: 50px;
+  height: 90px;
   border: 1px solid black;
   border-radius: 10px;
   text-align: center;
@@ -146,4 +140,5 @@ function onDbclick(ev: any) {
 input {
   margin: 18.72px 0px;
 }
+
 </style>

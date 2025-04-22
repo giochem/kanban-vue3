@@ -1,7 +1,8 @@
 <template><div class="header">Header</div></template>
-<style scoped>
+<style scoped lang="scss">
+@use '@/scss/_variables.scss';
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  background-color: $primary-color;
 }
 </style>
