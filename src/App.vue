@@ -7,6 +7,3 @@ import Header from './components/Header.vue'
   <Header />
   <ManageTable />
 </template>
-<style lang="scss" scoped>
-@use '@/scss/_global.scss';
-</style>
