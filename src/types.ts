@@ -1,3 +1,8 @@
+export type InputProps = {
+  value?: string
+  readonly?: boolean
+  id?: string
+}
 export type TaskData = {
   id: string
   title: string

@@ -59,13 +59,13 @@ function archiveTask() {
 function pinTask() {
   emit('pin-task', props.id)
 }
-function dragstart(ev: DragEvent) {
-  ev.dataTransfer?.setData('id', props.id)
-  console.log('dragstart', props.id, ev.dataTransfer?.getData('id'))
-  emit('dragstart', ev.dataTransfer?.getData('id') || '', ev)
+function dragstart(event: DragEvent) {
+  event.dataTransfer?.setData('id', props.id)
+  console.log('dragstart', props.id, event.dataTransfer?.getData('id'))
+  emit('dragstart', event.dataTransfer?.getData('id') || '', event)
 }
-function drop(ev: DragEvent) {
-  console.log('drop', 'sendeId', ev.dataTransfer?.getData('id'), 'receiveId', props.id)
-  emit('drop', ev.dataTransfer?.getData('id') || '', props.id, ev)
+function drop(event: DragEvent) {
+  console.log('drop', 'sendeId', event.dataTransfer?.getData('id'), 'receiveId', props.id)
+  emit('drop', event.dataTransfer?.getData('id') || '', props.id, event)
 }
 </script>
