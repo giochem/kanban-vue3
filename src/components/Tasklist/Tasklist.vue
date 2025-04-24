@@ -3,7 +3,14 @@
     <h3 v-show="name !== ''">{{ name }}</h3>
     <LoadingRow /><LoadingRow /><LoadingRow /><LoadingRow /><LoadingRow /><LoadingRow />
   </div>
-  <div v-else-if="tasks.length === 0" class="list-items" key="empty" data-testid="empty">
+  <div
+    v-else-if="tasks.length === 0"
+    @drop="onDropEmpty"
+    @dragover.prevent
+    class="list-items"
+    key="empty"
+    data-testid="empty"
+  >
     <div className="wrapper-message">
       <span className="icon-check" />
       <p className="title-message">You have no tasks</p>
@@ -20,6 +27,8 @@
       :state="task.state"
       @archive-task="onArchiveTask"
       @pin-task="onPinTask"
+      @dragstart="onDragstart"
+      @drop="onDrop"
     />
   </div>
 </template>
@@ -35,6 +44,8 @@ let { name, loading, tasks } = props
 const emit = defineEmits<{
   (e: 'archive-task', id: string): void
   (e: 'pin-task', id: string): void
+  (e: 'dragstart', sendeId: string, sendeCol: string): void
+  (e: 'drop', sendeId: string, receiveId: string, sendeCol: string, receiveCol: string): void
 }>()
 
 const tasksInOrder = computed(() => [
@@ -47,5 +58,35 @@ function onArchiveTask(id: string) {
 }
 function onPinTask(id: string) {
   emit('pin-task', id)
+}
+function onDragstart(sendeId: string, event: DragEvent) {
+  event.dataTransfer?.setData('senderCol', props.name || '')
+  console.log(
+    'dragstart tasklist',
+    'sendeId',
+    sendeId,
+    'senderCol',
+    event.dataTransfer?.getData('senderCol'),
+  )
+  emit('dragstart', sendeId, props.name || '')
+}
+function onDrop(sendeId: string, receiveId: string, event: DragEvent) {
+  console.log('drop tasklist', 'sendeId', sendeId, 'receiveId', receiveId)
+  emit('drop', sendeId, receiveId, event.dataTransfer?.getData('senderCol') || '', props.name || '')
+}
+function onDropEmpty(event: DragEvent) {
+  console.log(
+    event.dataTransfer?.getData('id') || '',
+    '',
+    event.dataTransfer?.getData('senderCol') || '',
+    props.name || '',
+  )
+  emit(
+    'drop',
+    event.dataTransfer?.getData('id') || '',
+    '',
+    event.dataTransfer?.getData('senderCol') || '',
+    props.name || '',
+  )
 }
 </script>

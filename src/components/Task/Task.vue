@@ -1,32 +1,43 @@
 <template>
-  <div :class="`list-item ${state}`">
-    <label :for="`archiveTask-${id}`" :aria-label="`archiveTask-${id}`" class="checkbox">
+  <div
+    @drop="drop"
+    @dragexit.prevent
+    @dragover.prevent
+    draggable="true"
+    @dragstart="dragstart"
+    :class="`list-item ${props.state}`"
+  >
+    <label
+      :for="`archiveTask-${props.id}`"
+      :aria-label="`archiveTask-${props.id}`"
+      class="checkbox"
+    >
       <input
         type="checkbox"
         disabled
         name="checked"
-        :id="`archiveTask-${id}`"
-        :checked="state === 'TASK_ARCHIVED'"
+        :id="`archiveTask-${props.id}`"
+        :checked="props.state === 'TASK_ARCHIVED'"
       />
       <span class="checkbox-custom" @click="archiveTask"></span>
     </label>
-    <label :for="`title-${id}`" :aria-label="title" class="title">
+    <label :for="`title-${props.id}`" :aria-label="props.title" class="title">
       <input
         type="text"
-        :value="title"
+        :value="props.title"
         readonly
         name="title"
-        :id="`title-${id}`"
+        :id="`title-${props.id}`"
         placeholder="Input title"
       />
     </label>
     <button
-      v-if="state !== 'TASK_ARCHIVED'"
+      v-if="props.state !== 'TASK_ARCHIVED'"
       class="pin-button"
       @click="pinTask"
-      :id="`pinTask-${id}`"
-      :aria-label="`pinTask-${id}`"
-      :key="`pinTask-${id}`"
+      :id="`pinTask-${props.id}`"
+      :aria-label="`pinTask-${props.id}`"
+      :key="`pinTask-${props.id}`"
     >
       <span class="icon-star"></span>
     </button>
@@ -35,16 +46,26 @@
 <script lang="ts" setup>
 import type { TaskData } from '@/types.ts'
 const props = defineProps<TaskData>()
-let { id, title, state } = props
 
 const emit = defineEmits<{
-  (e: 'archiveTask', id: string): void
-  (e: 'pinTask', id: string): void
+  (e: 'archive-task', id: string): void
+  (e: 'pin-task', id: string): void
+  (e: 'dragstart', sendeId: string, event: DragEvent): void
+  (e: 'drop', senderId: string, receiveId: string, event: DragEvent): void
 }>()
 function archiveTask() {
-  emit('archiveTask', id)
+  emit('archive-task', props.id)
 }
 function pinTask() {
-  emit('pinTask', id)
+  emit('pin-task', props.id)
+}
+function dragstart(ev: DragEvent) {
+  ev.dataTransfer?.setData('id', props.id)
+  console.log('dragstart', props.id, ev.dataTransfer?.getData('id'))
+  emit('dragstart', ev.dataTransfer?.getData('id') || '', ev)
+}
+function drop(ev: DragEvent) {
+  console.log('drop', 'sendeId', ev.dataTransfer?.getData('id'), 'receiveId', props.id)
+  emit('drop', ev.dataTransfer?.getData('id') || '', props.id, ev)
 }
 </script>

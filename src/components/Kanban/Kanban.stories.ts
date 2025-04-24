@@ -29,6 +29,7 @@ export const Default: Story = {
           { ...TaskStories.Default.args, id: '10', title: 'Task 10' },
         ],
       },
+      { ...TasklistStories.Empty.args },
     ],
   },
 }

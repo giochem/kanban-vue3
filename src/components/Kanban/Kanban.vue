@@ -1,6 +1,6 @@
 <template>
   <div class="kanban">
-    <Tasklist v-for="taskList in columns" :tasks="taskList.tasks" />
+    <Tasklist v-for="(taskList, idx) in columns" :tasks="taskList.tasks" :name="String(idx)" />
   </div>
 </template>
 <script setup lang="ts">
@@ -11,7 +11,6 @@ type Kanban = {
   columns: TaskList[]
 }
 const props = defineProps<Kanban>()
-
 </script>
 <style scoped>
 .kanban {

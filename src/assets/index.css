@@ -401,6 +401,7 @@ textarea {
     height: auto;
     transform: translate3d(0, -50%, 0);
     text-align: center;
+    width: 300px;
 }
 
 .wrapper-message [class^="icon-"],
