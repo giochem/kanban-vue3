@@ -1,32 +1,32 @@
 <template>
-  <div :class="`list-item ${task.state}`">
-    <label :for="`archiveTask-${task.id}`" :aria-label="`archiveTask-${task.id}`" class="checkbox">
+  <div :class="`list-item ${state}`">
+    <label :for="`archiveTask-${id}`" :aria-label="`archiveTask-${id}`" class="checkbox">
       <input
         type="checkbox"
         disabled
         name="checked"
-        :id="`archiveTask-${task.id}`"
-        :checked="task.state === 'TASK_ARCHIVED'"
+        :id="`archiveTask-${id}`"
+        :checked="state === 'TASK_ARCHIVED'"
       />
-      <span class="checkbox-custom" @click="$emit('onArchiveTask', task.id)"></span>
+      <span class="checkbox-custom" @click="archiveTask"></span>
     </label>
-    <label :for="`title-${task.id}`" :aria-label="task.title" class="title">
+    <label :for="`title-${id}`" :aria-label="title" class="title">
       <input
         type="text"
-        :value="task.title"
+        :value="title"
         readonly
         name="title"
-        :id="`title-${task.id}`"
+        :id="`title-${id}`"
         placeholder="Input title"
       />
     </label>
     <button
-      v-if="task.state !== 'TASK_ARCHIVED'"
+      v-if="state !== 'TASK_ARCHIVED'"
       class="pin-button"
-      @click="$emit('onPinTask', task.id)"
-      :id="`pinTask-${task.id}`"
-      :aria-label="`pinTask-${task.id}`"
-      :key="`pinTask-${task.id}`"
+      @click="pinTask"
+      :id="`pinTask-${id}`"
+      :aria-label="`pinTask-${id}`"
+      :key="`pinTask-${id}`"
     >
       <span class="icon-star"></span>
     </button>
@@ -34,11 +34,17 @@
 </template>
 <script lang="ts" setup>
 import type { TaskData } from '@/types.ts'
-defineProps<{
-  task: TaskData
+const props = defineProps<TaskData>()
+let { id, title, state } = props
+
+const emit = defineEmits<{
+  (e: 'archiveTask', id: string): void
+  (e: 'pinTask', id: string): void
 }>()
-defineEmits<{
-  (e: 'onArchiveTask', id: string): void
-  (e: 'onPinTask', id: string): void
-}>()
+function archiveTask() {
+  emit('archiveTask', id)
+}
+function pinTask() {
+  emit('pinTask', id)
+}
 </script>
