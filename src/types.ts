@@ -12,5 +12,5 @@ export type TaskList = {
   name?: string
   loading?: boolean
   tasks: TaskData[]
-  col?: number
+  col: number
 }

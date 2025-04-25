@@ -24,9 +24,26 @@ function dropTask(sendeId: string, receiveId: string, sendeCol: number, receiveC
   console.log('kanban', sendeId, receiveId, sendeCol, receiveCol)
   let moveTaskIdx = myCol.value[sendeCol].tasks.findIndex((t) => t.id === sendeId)
   const task = myCol.value[sendeCol].tasks.splice(moveTaskIdx, 1)[0]
+  if (sendeCol === 2) {
+    task.state = 'TASK_INBOX'
+  }
+  if (receiveCol === 2) {
+    task.state = 'TASK_ARCHIVED'
+  }
   myCol.value[receiveCol].tasks.push(task)
 }
-function onArchiveTask(id: string, col: string) {}
+function onArchiveTask(id: string, col: number, colName?: string) {
+  console.log('Kanban onArchiveTask', id, col, colName)
+  if (colName === 'Done') {
+    return
+  }
+  const taskIdx = myCol.value[col].tasks.findIndex((t) => t.id === id)
+  let moveTask = myCol.value[col].tasks.splice(taskIdx, 1)[0]
+  if (colName === 'Progress') {
+    moveTask.state = 'TASK_ARCHIVED'
+  }
+  myCol.value[col + 1].tasks.unshift(moveTask)
+}
 </script>
 <style scoped>
 .kanban {

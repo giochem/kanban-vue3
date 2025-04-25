@@ -30,6 +30,7 @@
       @pin-task="onPinTask"
       @dragstart="onDragstart"
       @drop="onDrop"
+      :col-name="props.name"
     />
   </div>
 </template>
@@ -42,7 +43,7 @@ import { computed } from 'vue'
 const props = defineProps<TaskList>()
 
 const emit = defineEmits<{
-  (e: 'archive-task', id: string, col: string): void
+  (e: 'archive-task', id: string, col: number, colName?: string): void
   (e: 'pin-task', id: string): void
   (e: 'dragstart', sendeId: string, sendeCol: number): void
   (e: 'drop', sendeId: string, receiveId: string, sendeCol: number, receiveCol: number): void
@@ -52,11 +53,9 @@ const tasksInOrder = computed(() => [
   ...props.tasks.filter((t) => t.state === 'TASK_PINNED'),
   ...props.tasks.filter((t) => t.state !== 'TASK_PINNED'),
 ])
-
 function onArchiveTask(id: string) {
-  console.log('Tasklist - onArchiveTask', id)
-
-  emit('archive-task', id, props.name || '')
+  console.log('Tasklist onArchiveTask', id, props.col, props.name)
+  emit('archive-task', id, props.col, props.name)
 }
 function onPinTask(id: string) {
   emit('pin-task', id)
