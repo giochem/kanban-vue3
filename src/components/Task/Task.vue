@@ -24,11 +24,13 @@
     <label :for="`title-${props.id}`" :aria-label="props.title" class="title">
       <input
         type="text"
-        :value="props.title"
-        readonly
+        :readonly="props.readonly"
         name="title"
+        @input="input"
         :id="`title-${props.id}`"
         placeholder="Input title"
+        @dblclick="dblclick"
+        :value="props.title"
       />
     </label>
     <button
@@ -45,16 +47,21 @@
 </template>
 <script lang="ts" setup>
 import type { TaskData } from '@/types.ts'
-
 const props = defineProps<TaskData>()
-
 const emit = defineEmits<{
+  (e: 'input-change', ev: Event, id: string): void
+  (e: 'input-dblclick', id: string): void
   (e: 'archive-task', id: string): void
   (e: 'pin-task', id: string): void
-  (e: 'dragstart', sendeId: string, event: DragEvent): void
-  (e: 'drop', senderId: string, receiveId: string, event: DragEvent): void
+  (e: 'dragstart', sendeId: string, ev: DragEvent): void
+  (e: 'drop', senderId: string, receiveId: string, ev: DragEvent): void
 }>()
-
+function input(ev: Event) {
+  emit('input-change', ev, props.id)
+}
+function dblclick() {
+  emit('input-dblclick', props.id)
+}
 function archiveTask() {
   emit('archive-task', props.id)
 }

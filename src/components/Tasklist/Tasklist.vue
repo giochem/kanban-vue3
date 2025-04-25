@@ -26,6 +26,8 @@
       :id="task.id"
       :title="task.title"
       :state="task.state"
+      @input-change="onInputChange"
+      @input-dblclick="onInputDblclick"
       @archive-task="onArchiveTask"
       @pin-task="onPinTask"
       @dragstart="onDragstart"
@@ -43,6 +45,8 @@ import { computed } from 'vue'
 const props = defineProps<TaskList>()
 
 const emit = defineEmits<{
+  (e: 'input-change', ev: Event, id: string, col: number): void
+  (e: 'input-dblclick', id: string, col: number): void
   (e: 'archive-task', id: string, col: number, colName?: string): void
   (e: 'pin-task', id: string): void
   (e: 'dragstart', sendeId: string, sendeCol: number): void
@@ -53,6 +57,13 @@ const tasksInOrder = computed(() => [
   ...props.tasks.filter((t) => t.state === 'TASK_PINNED'),
   ...props.tasks.filter((t) => t.state !== 'TASK_PINNED'),
 ])
+function onInputChange(ev: Event, id: string) {
+  emit('input-change', ev, id, props.col)
+}
+function onInputDblclick(id: string) {
+  emit('input-dblclick', id, props.col)
+}
+
 function onArchiveTask(id: string) {
   console.log('Tasklist onArchiveTask', id, props.col, props.name)
   emit('archive-task', id, props.col, props.name)

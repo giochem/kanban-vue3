@@ -17,6 +17,7 @@ export const Default: Story = {
   args: {
     name: 'To Do',
     loading: false,
+    col: 0,
     tasks: [
       { ...TaskStories.Default.args, id: '1', title: 'Task 1' },
       { ...TaskStories.Default.args, id: '2', title: 'Task 2' },
@@ -30,6 +31,7 @@ export const Default: Story = {
 
 export const WithPinedTasks: Story = {
   args: {
+    ...Default.args,
     tasks: [
       ...Default.args.tasks.slice(0, 5),
       { id: '6', title: 'Task 6 (pinned)', state: 'TASK_PINNED' },
@@ -38,7 +40,7 @@ export const WithPinedTasks: Story = {
 }
 export const Loading: Story = {
   args: {
-    name: Default.args.name,
+    ...Default.args,
     tasks: [],
     loading: true,
   },
@@ -46,8 +48,6 @@ export const Loading: Story = {
 
 export const Empty: Story = {
   args: {
-    // Shaping the stories through args composition.
-    // Inherited data coming from the Loading story.
     ...Loading.args,
     loading: false,
   },

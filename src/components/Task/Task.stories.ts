@@ -23,6 +23,13 @@ export const Default: Story = {
     id: '1',
     title: 'Test Task',
     state: 'TASK_INBOX',
+    readonly: true,
+  },
+}
+export const Edit: Story = {
+  args: {
+    ...Default.args,
+    readonly: false,
   },
 }
 

@@ -1,6 +1,8 @@
 <template>
   <div class="kanban">
     <Tasklist
+      @input-change="onInputChange"
+      @input-dblclick="onInputDblclick"
       @drop="dropTask"
       @archive-task="onArchiveTask"
       v-for="(taskList, idx) in myCol"
@@ -19,6 +21,16 @@ type Kanban = {
 }
 const props = defineProps<Kanban>()
 const myCol = ref(props.columns)
+
+function onInputChange(ev: Event, id: string, col: number) {
+  const taskIdx = myCol.value[col].tasks.findIndex((t) => t.id === id)
+  myCol.value[col].tasks[taskIdx].title =
+    (ev.target as HTMLInputElement)?.value || myCol.value[col].tasks[taskIdx].title
+}
+function onInputDblclick(id: string, col: number) {
+  const taskIdx = myCol.value[col].tasks.findIndex((t) => t.id === id)
+  myCol.value[col].tasks[taskIdx].readonly = false
+}
 
 function dropTask(sendeId: string, receiveId: string, sendeCol: number, receiveCol: number) {
   console.log('kanban', sendeId, receiveId, sendeCol, receiveCol)
