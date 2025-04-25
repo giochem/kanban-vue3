@@ -5,7 +5,7 @@
     @dragover.prevent
     draggable="true"
     @dragstart="dragstart"
-    :class="`list-item ${props.state}`"
+    :class="`list-item ${state}`"
   >
     <label
       :for="`archiveTask-${props.id}`"
@@ -17,7 +17,7 @@
         disabled
         name="checked"
         :id="`archiveTask-${props.id}`"
-        :checked="props.state === 'TASK_ARCHIVED'"
+        :checked="state === 'TASK_ARCHIVED'"
       />
       <span class="checkbox-custom" @click="archiveTask"></span>
     </label>
@@ -32,7 +32,7 @@
       />
     </label>
     <button
-      v-if="props.state !== 'TASK_ARCHIVED'"
+      v-if="state !== 'TASK_ARCHIVED'"
       class="pin-button"
       @click="pinTask"
       :id="`pinTask-${props.id}`"
@@ -45,7 +45,10 @@
 </template>
 <script lang="ts" setup>
 import type { TaskData } from '@/types.ts'
+import { ref } from 'vue'
+
 const props = defineProps<TaskData>()
+const state = ref(props.state)
 
 const emit = defineEmits<{
   (e: 'archive-task', id: string): void
@@ -54,6 +57,11 @@ const emit = defineEmits<{
   (e: 'drop', senderId: string, receiveId: string, event: DragEvent): void
 }>()
 function archiveTask() {
+  if (state.value === 'TASK_INBOX') {
+    state.value = 'TASK_ARCHIVED'
+  } else if (state.value === 'TASK_ARCHIVED') {
+    state.value = 'TASK_INBOX'
+  }
   emit('archive-task', props.id)
 }
 function pinTask() {

@@ -1,10 +1,10 @@
 <template>
-  <div v-if="loading" class="list-items" data-testid="loading" key="loading">
-    <h3 v-show="name !== ''">{{ name }}</h3>
+  <div v-if="props.loading" class="list-items" data-testid="loading" key="loading">
+    <h3 v-show="props.name !== ''">{{ props.name }}</h3>
     <LoadingRow /><LoadingRow /><LoadingRow /><LoadingRow /><LoadingRow /><LoadingRow />
   </div>
   <div
-    v-else-if="tasks.length === 0"
+    v-else-if="props.tasks.length === 0"
     @drop="onDropEmpty"
     @dragover.prevent
     class="list-items"
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div v-else class="list-items">
-    <h3 v-show="name !== ''">{{ name }}</h3>
+    <h3 v-show="props.name !== ''">{{ props.name }}</h3>
     <Task
       v-for="task in tasksInOrder"
       :key="task.id"
@@ -39,22 +39,23 @@ import LoadingRow from './LoadingRow.vue'
 import { computed } from 'vue'
 
 const props = defineProps<TaskList>()
-let { name, loading, tasks } = props
 
 const emit = defineEmits<{
-  (e: 'archive-task', id: string): void
+  (e: 'archive-task', id: string, col: string): void
   (e: 'pin-task', id: string): void
   (e: 'dragstart', sendeId: string, sendeCol: string): void
   (e: 'drop', sendeId: string, receiveId: string, sendeCol: string, receiveCol: string): void
 }>()
 
 const tasksInOrder = computed(() => [
-  ...tasks.filter((t) => t.state === 'TASK_PINNED'),
-  ...tasks.filter((t) => t.state !== 'TASK_PINNED'),
+  ...props.tasks.filter((t) => t.state === 'TASK_PINNED'),
+  ...props.tasks.filter((t) => t.state !== 'TASK_PINNED'),
 ])
 
 function onArchiveTask(id: string) {
-  emit('archive-task', id)
+  console.log('Tasklist - onArchiveTask', id)
+  
+  emit('archive-task', id, props.name || '')
 }
 function onPinTask(id: string) {
   emit('pin-task', id)

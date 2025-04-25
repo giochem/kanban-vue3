@@ -2,6 +2,7 @@
   <div class="kanban">
     <Tasklist
       @drop="dropTask"
+      @archive-task="onArchiveTask"
       v-for="(taskList, idx) in myCol"
       :tasks="taskList.tasks"
       :name="String(idx)"
@@ -23,8 +24,8 @@ function dropTask(sendeId: string, receiveId: string, sendeCol: string, receiveC
   let moveTaskIdx = myCol.value[Number(sendeCol)].tasks.findIndex((t) => t.id === sendeId)
   const task = myCol.value[Number(sendeCol)].tasks.splice(moveTaskIdx, 1)[0]
   myCol.value[Number(receiveCol)].tasks.push(task)
-  console.log(myCol.value)
 }
+function onArchiveTask(id: string, col: string) {}
 </script>
 <style scoped>
 .kanban {
