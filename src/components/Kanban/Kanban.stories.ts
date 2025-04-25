@@ -20,6 +20,7 @@ export const Default: Story = {
       {
         name: 'Progress',
         loading: false,
+        col: 1,
         tasks: [
           { ...TaskStories.Default.args, id: '7', title: 'Task 7' },
           { ...TaskStories.Default.args, id: '8', title: 'Task 8' },
@@ -27,7 +28,7 @@ export const Default: Story = {
           { ...TaskStories.Default.args, id: '10', title: 'Task 10' },
         ],
       },
-      { ...TasklistStories.Empty.args, name: 'Done' },
+      { ...TasklistStories.Empty.args, name: 'Done', col: 2 },
     ],
   },
 }

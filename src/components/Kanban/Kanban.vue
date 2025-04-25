@@ -42,7 +42,13 @@ function dropTask(sendeId: string, receiveId: string, sendeCol: number, receiveC
   if (receiveCol === 2) {
     task.state = 'TASK_ARCHIVED'
   }
-  myCol.value[receiveCol].tasks.push(task)
+  if (sendeCol === receiveCol) {
+    const insertIdx = myCol.value[sendeCol].tasks.findIndex((t) => t.id === receiveId)
+    console.log('order in same col', insertIdx)
+    myCol.value[sendeCol].tasks.splice(insertIdx, 0, task)
+  } else {
+    myCol.value[receiveCol].tasks.unshift(task)
+  }
 }
 function onArchiveTask(id: string, col: number, colName?: string) {
   console.log('Kanban onArchiveTask', id, col, colName)
