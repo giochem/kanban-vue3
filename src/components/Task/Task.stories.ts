@@ -13,9 +13,7 @@ const meta = {
   component: Task,
   tags: ['autodocs'],
   excludeStories: /.*Data$/,
-  args: {
-    ...ActionsData,
-  },
+  args: {},
 } satisfies Meta<typeof Task>
 export default meta
 type Story = StoryObj<typeof meta>

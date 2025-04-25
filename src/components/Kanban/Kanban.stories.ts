@@ -8,9 +8,7 @@ const meta = {
   title: 'Component/Kanban',
   component: Kanban,
   tags: ['autodocs'],
-  args: {
-    ...TaskStories.ActionsData,
-  },
+  args: {},
 } satisfies Meta<typeof Kanban>
 export default meta
 type Story = StoryObj<typeof meta>
