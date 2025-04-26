@@ -24,6 +24,7 @@ export const Default: Story = {
     title: 'Test Task',
     state: 'TASK_INBOX',
     readonly: true,
+    hidden: false,
   },
 }
 export const Edit: Story = {

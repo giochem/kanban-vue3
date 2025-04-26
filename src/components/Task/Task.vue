@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="props.hidden === false"
     @drop="drop"
     @dragexit.prevent
     @dragover.prevent

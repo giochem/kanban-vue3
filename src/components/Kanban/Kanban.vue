@@ -15,13 +15,16 @@
 <script setup lang="ts">
 import Tasklist from '../Tasklist/Tasklist.vue'
 import type { TaskList } from '@/types.ts'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 type Kanban = {
   columns: TaskList[]
 }
 const props = defineProps<Kanban>()
 const myCol = ref(props.columns)
-
+watchEffect(() => {
+  console.log('effect', props.columns)
+  myCol.value = props.columns
+})
 function onInputChange(ev: Event, id: string, col: number) {
   const taskIdx = myCol.value[col].tasks.findIndex((t) => t.id === id)
   myCol.value[col].tasks[taskIdx].title =

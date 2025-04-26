@@ -9,6 +9,7 @@ export type TaskData = {
   state: 'TASK_ARCHIVED' | 'TASK_INBOX' | 'TASK_PINNED'
   readonly?: boolean
   inputVal?: string
+  hidden?: boolean
 }
 export type TaskList = {
   name?: string

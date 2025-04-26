@@ -26,6 +26,7 @@
       :id="task.id"
       :title="task.title"
       :state="task.state"
+      :hidden="task.hidden"
       @input-change="onInputChange"
       @input-dblclick="onInputDblclick"
       @archive-task="onArchiveTask"
@@ -40,10 +41,12 @@
 import type { TaskList } from '@/types.ts'
 import Task from '../Task/Task.vue'
 import LoadingRow from './LoadingRow.vue'
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 
 const props = defineProps<TaskList>()
-
+watchEffect(() => {
+  console.log('effect tasklist', props)
+})
 const emit = defineEmits<{
   (e: 'input-change', ev: Event, id: string, col: number): void
   (e: 'input-dblclick', id: string, col: number): void
@@ -57,6 +60,7 @@ const tasksInOrder = computed(() => [
   ...props.tasks.filter((t) => t.state === 'TASK_PINNED'),
   ...props.tasks.filter((t) => t.state !== 'TASK_PINNED'),
 ])
+
 function onInputChange(ev: Event, id: string) {
   emit('input-change', ev, id, props.col)
 }
