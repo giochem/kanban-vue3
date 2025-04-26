@@ -11,7 +11,7 @@ export const ActionsData = {
 const meta = {
   title: 'Component/Task',
   component: Task,
-  tags: ['autodocs'],
+  tags: ['autodocs', 'v1'],
   excludeStories: /.*Data$/,
   args: {},
 } satisfies Meta<typeof Task>

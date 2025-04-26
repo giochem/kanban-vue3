@@ -5,6 +5,7 @@
       @input-dblclick="onInputDblclick"
       @drop="dropTask"
       @archive-task="onArchiveTask"
+      @remove-task="onRemoveTask"
       v-for="(taskList, idx) in myCol"
       :tasks="taskList.tasks"
       :name="taskList.name"
@@ -25,6 +26,7 @@ watchEffect(() => {
   console.log('effect', props.columns)
   myCol.value = props.columns
 })
+
 function onInputChange(ev: Event, id: string, col: number) {
   const taskIdx = myCol.value[col].tasks.findIndex((t) => t.id === id)
   myCol.value[col].tasks[taskIdx].title =
@@ -64,6 +66,11 @@ function onArchiveTask(id: string, col: number, colName?: string) {
     moveTask.state = 'TASK_ARCHIVED'
   }
   myCol.value[col + 1].tasks.unshift(moveTask)
+}
+function onRemoveTask(id: string, col: number) {
+  console.log('Kanban onRemoveTask', id, col)
+  const taskIdx = myCol.value[col].tasks.findIndex((t) => t.id === id)
+  myCol.value[col].tasks.splice(taskIdx, 1)
 }
 </script>
 <style scoped>

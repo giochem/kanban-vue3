@@ -30,7 +30,7 @@
       @input-change="onInputChange"
       @input-dblclick="onInputDblclick"
       @archive-task="onArchiveTask"
-      @pin-task="onPinTask"
+      @remove-task="onRemoveTask"
       @dragstart="onDragstart"
       @drop="onDrop"
       :col-name="props.name"
@@ -51,7 +51,7 @@ const emit = defineEmits<{
   (e: 'input-change', ev: Event, id: string, col: number): void
   (e: 'input-dblclick', id: string, col: number): void
   (e: 'archive-task', id: string, col: number, colName?: string): void
-  (e: 'pin-task', id: string): void
+  (e: 'remove-task', id: string, col: number): void
   (e: 'dragstart', sendeId: string, sendeCol: number): void
   (e: 'drop', sendeId: string, receiveId: string, sendeCol: number, receiveCol: number): void
 }>()
@@ -72,8 +72,8 @@ function onArchiveTask(id: string) {
   console.log('Tasklist onArchiveTask', id, props.col, props.name)
   emit('archive-task', id, props.col, props.name)
 }
-function onPinTask(id: string) {
-  emit('pin-task', id)
+function onRemoveTask(id: string) {
+  emit('remove-task', id, props.col)
 }
 function onDragstart(sendeId: string, event: DragEvent) {
   event.dataTransfer?.setData('senderCol', String(props.col))

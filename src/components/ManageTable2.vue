@@ -33,10 +33,14 @@ watch(search, () => {
 })
 
 function addTask() {
+  console.log('addTask')
   kanban.value[0].tasks.unshift({
     id: uuidv4(),
     title: newTask.value,
     state: 'TASK_INBOX',
+    readonly: true,
+    hidden: false,
   })
+  console.log(kanban.value[0])
 }
 </script>

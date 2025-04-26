@@ -296,7 +296,7 @@ textarea {
     cursor: text;
 }
 
-.pin-button {
+.remove-button {
     width: 3rem;
     height: 3rem;
     background: transparent;
@@ -309,15 +309,15 @@ textarea {
     outline: none;
 }
 
-.pin-button:hover {
+.remove-button:hover {
     color: #2cc5d2;
 }
 
-.pin-button:focus {
+.remove-button:focus {
     outline-color: transparent;
 }
 
-.pin-button:active {
+.remove-button:active {
     color: #555;
 }
 

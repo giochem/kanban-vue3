@@ -36,11 +36,11 @@
     </label>
     <button
       v-if="props.state !== 'TASK_ARCHIVED'"
-      class="pin-button"
-      @click="pinTask"
-      :id="`pinTask-${props.id}`"
-      :aria-label="`pinTask-${props.id}`"
-      :key="`pinTask-${props.id}`"
+      class="remove-button"
+      @click="removeTask"
+      :id="`removeTask-${props.id}`"
+      :aria-label="`removeTask-${props.id}`"
+      :key="`removeTask-${props.id}`"
     >
       <span class="icon-star"></span>
     </button>
@@ -53,7 +53,7 @@ const emit = defineEmits<{
   (e: 'input-change', ev: Event, id: string): void
   (e: 'input-dblclick', id: string): void
   (e: 'archive-task', id: string): void
-  (e: 'pin-task', id: string): void
+  (e: 'remove-task', id: string): void
   (e: 'dragstart', sendeId: string, ev: DragEvent): void
   (e: 'drop', senderId: string, receiveId: string, ev: DragEvent): void
 }>()
@@ -66,8 +66,8 @@ function dblclick() {
 function archiveTask() {
   emit('archive-task', props.id)
 }
-function pinTask() {
-  emit('pin-task', props.id)
+function removeTask() {
+  emit('remove-task', props.id)
 }
 function dragstart(event: DragEvent) {
   event.dataTransfer?.setData('id', props.id)
