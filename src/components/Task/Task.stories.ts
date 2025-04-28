@@ -1,4 +1,4 @@
-import { fn } from '@storybook/test'
+import { fn, fireEvent, within } from '@storybook/test'
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import Task from './Task.vue'
@@ -25,6 +25,11 @@ export const Default: Story = {
     state: 'TASK_INBOX',
     readonly: true,
     hidden: false,
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement)
+    await fireEvent.click(canvas.getByLabelText('archiveTask-1'))
+    await fireEvent.click(canvas.getByRole('button'))
   },
 }
 export const Edit: Story = {

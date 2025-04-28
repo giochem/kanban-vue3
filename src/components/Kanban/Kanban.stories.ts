@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-
+import { fn, fireEvent, within } from '@storybook/test'
 import Kanban from './Kanban.vue'
 import * as TaskStories from '../Task/Task.stories'
 import * as TasklistStories from '../Tasklist/TaskList.stories'
@@ -30,5 +30,9 @@ export const Default: Story = {
       },
       { ...TasklistStories.Empty.args, name: 'Done', col: 2 },
     ],
+  },
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const canvas = within(canvasElement)
+    await fireEvent.click(canvas.getByLabelText('archiveTask-1'))
   },
 }
